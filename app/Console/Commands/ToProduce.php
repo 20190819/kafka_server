@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Services\MyKafkaService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class ToProduce extends Command
 {
@@ -37,6 +39,12 @@ class ToProduce extends Command
      */
     public function handle()
     {
-        //
+        $topic ='TestTopicForDocker';
+        $value = Str::random();
+        $producer = MyKafkaService::producer($topic, $value);
+        $producer->error(function ($errorCode) {
+            dd("errorCode: ".$this->error($errorCode));
+        });
+        $producer->send();
     }
 }

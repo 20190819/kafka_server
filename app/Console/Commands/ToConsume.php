@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Services\MyKafkaService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class ToConsume extends Command
 {
@@ -37,6 +39,10 @@ class ToConsume extends Command
      */
     public function handle()
     {
-        //
+        $consumer = MyKafkaService::consumer('TestTopicForDocker', 'test');
+        $consumer->start(function ($topic, $part, $message) {
+            Log::channel('kafka_server')->info($message);
+            echo "我接收到了" . PHP_EOL;
+        });
     }
 }

@@ -39,7 +39,7 @@ class MyKafkaService
         $config->setGroupId($group_id);
         $config->setBrokerVersion(config('kafka.broker_version'));
         $config->setTopics(Arr::wrap($topic));
-        $config->setOffsetReset(config('kafka.set_offset_reset'));
+        $config->setOffsetReset(config('kafka.consumer.set_offset_reset'));
         return new \Kafka\Consumer();
     }
 }
